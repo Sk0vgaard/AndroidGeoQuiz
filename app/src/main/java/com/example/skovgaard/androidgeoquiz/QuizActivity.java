@@ -39,16 +39,14 @@ public class QuizActivity extends AppCompatActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO:
-                Toast.makeText(QuizActivity.this, R.string.correct_toast, Toast.LENGTH_SHORT).show();
+                checkAnswer(true);
             }
         });
 
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO:
-                Toast.makeText(QuizActivity.this, R.string.incorrect_toast, Toast.LENGTH_SHORT).show();
+                checkAnswer(false);
             }
         });
 
@@ -58,11 +56,25 @@ public class QuizActivity extends AppCompatActivity {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
             }
-
-            private void updateQuestion() {
-                int question = mQuestionBank[mCurrentIndex].getTextResId();
-                mQuestionTextView.setText(question);
-            }
         });
+    }
+
+    private void updateQuestion() {
+        int question = mQuestionBank[mCurrentIndex].getTextResId();
+        mQuestionTextView.setText(question);
+    }
+
+    private void checkAnswer(boolean userPressenTrue) {
+        boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+
+        int messageResId = 0;
+
+        if (userPressenTrue == answerIsTrue) {
+            messageResId = R.string.correct_toast;
+        } else {
+            messageResId = R.string.incorrect_toast;
+        }
+
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 }
