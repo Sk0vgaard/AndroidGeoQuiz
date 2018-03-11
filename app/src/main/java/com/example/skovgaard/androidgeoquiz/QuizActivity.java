@@ -14,6 +14,7 @@ public class QuizActivity extends AppCompatActivity {
     private TextView mQuestionTextView;
 
     private int mCurrentIndex = 0;
+    private int mNumberOfCorrectAnswers = 0;
     private static final String KEY_INDEX = "index";
     private static final String TAG = "QuizActivity";
 
@@ -43,6 +44,7 @@ public class QuizActivity extends AppCompatActivity {
         mQuestionTextView = findViewById(R.id.question_text_view);
 
 
+        // TRUE BTN
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +54,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        // FALSE BTN
         mFalseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +64,7 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
 
+        // NEXT BTN
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,9 +72,9 @@ public class QuizActivity extends AppCompatActivity {
                 updateQuestion();
                 mTrueButton.setEnabled(true);
                 mFalseButton.setEnabled(true);
+                score();
             }
         });
-
         updateQuestion();
     }
 
@@ -123,13 +127,17 @@ public class QuizActivity extends AppCompatActivity {
 
         if (userPressedTrue == answerIsTrue) {
             messageResId = R.string.correct_toast;
+            mNumberOfCorrectAnswers++;
         } else {
             messageResId = R.string.incorrect_toast;
         }
-
         Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 
+    private void score() {
+        String scoreMessage = "Your score is: " + mNumberOfCorrectAnswers + "/" + mQuestionBank.length;
+        Toast.makeText(this, scoreMessage, Toast.LENGTH_SHORT).show();
+    }
 
 
 }
